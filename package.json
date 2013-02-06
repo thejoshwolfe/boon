@@ -1,0 +1,17 @@
+{
+  "name": "boon",
+  "version": "0.0.0",
+  "description": "build tool for node.js projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thejoshwolfe/boon.git"
+  },
+  "author": "Josh Wolfe <thejoshwolfe@gmail.com>",
+  "license": "BSD",
+  "readmeFilename": "readme.md",
+  "gitHead": "d80d502c77fcacb9209916463f0fc1ac0d7e8c6b"
+}
