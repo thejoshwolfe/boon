@@ -4,7 +4,8 @@
   "description": "build tool for node.js projects",
   "main": "index.js",
   "scripts": {
-    "test": "npm install && coco test/test.co test/output.txt"
+    "test": "npm install && coco test/test.co test/output.txt",
+    "dbg":  "npm install && coco -c test/test.co && node --debug-brk test/test.js test/output.txt"
   },
   "repository": {
     "type": "git",
