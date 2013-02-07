@@ -4,9 +4,19 @@ const
   fs   = require \fs
 
 boon.file 'test/output.txt', 'test/input.txt', !->
-  @log 'recipeing'
+  @log 'hello'
   out_stream = fs.createWriteStream @output
   out_stream.on \close, @~done
   fs.createReadStream('test/input.txt').pipe out_stream
+
+boon.file 'test/both.txt', <[test/input.txt test/output.txt]>, !->
+  @log 'hello hello'
+  out_stream = fs.createWriteStream @output
+  out_stream.on \close, @~done
+  first = fs.createReadStream 'test/input.txt'
+  first.pipe out_stream, end: false
+  <~! first.on \end
+  second = fs.createReadStream 'test/output.txt'
+  second.pipe out_stream
 
 boon.run process.argv.slice 2
