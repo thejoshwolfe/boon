@@ -1,0 +1,10 @@
+
+const boon = require '..'
+
+boon.file 'test/output.txt', 'test/input.txt', !->
+  @log "recipeing"
+  out_stream = fs.createWriteStream @output
+  out_stream.on \close, @~done
+  fs.createReadStream('test/input.txt').pipe out_stream
+
+boon.run process.argv.slice 2
