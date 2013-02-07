@@ -8,6 +8,12 @@ and react to updates automatically. The usecase is editing the code of a long-ru
 such as a server, and having the code automatically rebuilt, and the server restarted.
 
 
+status
+------
+
+not cool yet.
+
+
 boon vs Jake
 ------------
 
@@ -18,7 +24,7 @@ boon vs Jake
 A Jakefile must be JavaScript. boon has no magic file names, so the build script can be run with any interpreter.
 
 
-boon vs `coffee -w`?
+boon vs `coffee -w`
 --------------------
 
 `coffee -w` gives no clear indication that it is done with everything it sees to do.
