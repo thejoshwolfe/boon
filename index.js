@@ -10,8 +10,7 @@ var targets = {};
 exports.run = function(args) {
   if (args.length !== 1) throw new Error("expected 1 arg. got: " + JSON.stringify(args));
   run_target(args[0], function(err) {
-    if (err)
-      console.log(err);
+    if (err) return console.error("Error: " + err.message);
     verbose("it is done");
   });
 };
@@ -41,7 +40,6 @@ exports.file = function(outputs, dependencies, recipe) {
 function run_target(name, cb) {
   var target = targets[name];
   if (target == null) {
-    // assume it's supposed to be a file
     verbose(name + " should be a file");
     return fs.stat(name, function(err) {
       verbose(name + " has been statted");
@@ -56,8 +54,8 @@ function run_target(name, cb) {
       pending[child] = true;
       run_target(child, function(err) {
         verbose(name + " is no longer waiting for " + child);
+        if (err) return cb(err);
         delete pending[child];
-        if (err) cb(err);
         are_we_done();
       });
     })(child);
