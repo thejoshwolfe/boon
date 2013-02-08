@@ -1,13 +1,18 @@
 
 var fs = require("fs");
 
+function verbose() {
+  if (false)
+    console.log.apply(null, arguments);
+}
+
 var targets = {};
 exports.run = function(args) {
   if (args.length !== 1) throw new Error("expected 1 arg. got: " + JSON.stringify(args));
   run_target(args[0], function(err) {
     if (err)
       console.log(err);
-    console.log("it is done");
+    verbose("it is done");
   });
 };
 
@@ -37,29 +42,33 @@ function run_target(name, cb) {
   var target = targets[name];
   if (target == null) {
     // assume it's supposed to be a file
+    verbose(name + " should be a file");
     return fs.stat(name, function(err) {
-      console.log(name + " is done");
+      verbose(name + " has been statted");
       if (err) return cb(new Error("target not defined: " + JSON.stringify(name)));
       cb();
     });
   }
   var pending = {};
   for (var child in target.dependency_set) {
-    console.log(name + " is now waiting for " + child);
-    pending[child] = true;
-    run_target(child, function(err) {
-      console.log(child + " is done");
-      delete pending[child];
-      cb(err);
-      are_we_done();
-    });
+    (function(child) {
+      verbose(name + " is now waiting for " + child);
+      pending[child] = true;
+      run_target(child, function(err) {
+        verbose(name + " is no longer waiting for " + child);
+        delete pending[child];
+        if (err) cb(err);
+        are_we_done();
+      });
+    })(child);
   }
   are_we_done();
   function are_we_done() {
     for (var we_are_not_done in pending) {
-      console.log(name + " is still waiting for " + we_are_not_done);
+      verbose(name + " is still waiting for " + we_are_not_done);
       return;
     }
+    verbose(name + " is ready");
     var context = {
       output: name,
       log: function() {
