@@ -19,4 +19,8 @@ boon.file 'test/both.txt', <[test/input.txt test/output.txt]>, !->
   second = fs.createReadStream 'test/output.txt'
   second.pipe out_stream
 
+boon.file 'final', <[test/both.txt test/output.txt]>, !->
+  @log 'finishing up'
+  process.nextTick @~done
+
 boon.run process.argv.slice 2
